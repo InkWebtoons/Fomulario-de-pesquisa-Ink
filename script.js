@@ -220,8 +220,40 @@ document.addEventListener('DOMContentLoaded', function() {
         goToGeekStep(5);
     });
     
-    // Form Submission
-    artistSubmitBtn.addEventListener('click', function(e) {
+    // Função para enviar dados para o Google Sheets
+    async function submitToGoogleSheets(formData, formType) {
+        try {
+            // Adiciona o tipo de formulário aos dados
+            formData.formType = formType === 'artist' ? 'Artista Digital' : 'Geek';
+            
+            // URL do seu Google Apps Script (substitua pela sua URL)
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwAa15D7NcrURNWCtwAd33GkJICA79ldRpf44iKIcHsFVdgUpC7N1nJ7M2oxFiCoyVI/exec';
+            
+            const response = await fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            const result = await response.json();
+            
+            if (result.result === 'success') {
+                console.log('Dados enviados com sucesso:', result);
+                return true;
+            } else {
+                console.error('Erro ao enviar dados:', result);
+                return false;
+            }
+        } catch (error) {
+            console.error('Erro ao enviar dados para o Google Sheets:', error);
+            return false;
+        }
+    }
+    
+    // Modifica o event listener do formulário de artista
+    artistSubmitBtn.addEventListener('click', async function(e) {
         e.preventDefault();
         
         if (validateArtistStep(6)) {
@@ -231,16 +263,22 @@ document.addEventListener('DOMContentLoaded', function() {
             // Save to localStorage
             saveToLocalStorage('artist-survey-data', formData);
             
-            // Show success message
-            artistForm.style.display = 'none';
-            progressContainer.style.display = 'none';
-            artistSuccessMessage.style.display = 'block';
+            // Envia para o Google Sheets
+            const success = await submitToGoogleSheets(formData, 'artist');
             
-            console.log('Artist form data:', formData);
+            if (success) {
+                // Show success message
+                artistForm.style.display = 'none';
+                progressContainer.style.display = 'none';
+                artistSuccessMessage.style.display = 'block';
+            } else {
+                alert('Houve um erro ao enviar seus dados. Por favor, tente novamente.');
+            }
         }
     });
     
-    geekSubmitBtn.addEventListener('click', function(e) {
+    // Modifica o event listener do formulário de geek
+    geekSubmitBtn.addEventListener('click', async function(e) {
         e.preventDefault();
         
         if (validateGeekStep(6)) {
@@ -250,12 +288,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Save to localStorage
             saveToLocalStorage('geek-survey-data', formData);
             
-            // Show success message
-            geekForm.style.display = 'none';
-            progressContainer.style.display = 'none';
-            geekSuccessMessage.style.display = 'block';
+            // Envia para o Google Sheets
+            const success = await submitToGoogleSheets(formData, 'geek');
             
-            console.log('Geek form data:', formData);
+            if (success) {
+                // Show success message
+                geekForm.style.display = 'none';
+                progressContainer.style.display = 'none';
+                geekSuccessMessage.style.display = 'block';
+            } else {
+                alert('Houve um erro ao enviar seus dados. Por favor, tente novamente.');
+            }
         }
     });
     
