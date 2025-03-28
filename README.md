@@ -212,4 +212,4 @@ Se você encontrar erros comuns:
 - [Referência da API](https://developers.google.com/sheets/api/reference/rest)
 
 ---
-⌨️ com ❤️ por [seu-nome](https://github.com/seu-usuario) 😊 # Fomulario-de-pesquisa-Ink
+⌨️ com ❤️ por [akastro](https://github.com/seu-usuario) 😊 # Fomulario-de-pesquisa-Ink
