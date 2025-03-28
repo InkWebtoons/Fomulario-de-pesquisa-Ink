@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function submitToGoogleSheets(formData, formType) {
         try {
             // Adiciona o tipo de formulário aos dados
-            formData.formType = formType === 'artist' ? 'Artista Digital' : 'Geek';
+            formData.formType = formType === 'FormularioArteDigital' ? 'Artista Digital' : 'Geek';
             
             // URL do seu Google Apps Script (substitua pela sua URL)
             const scriptURL = 'https://script.google.com/macros/s/AKfycbxrPbwYQJPsfMUE6uNUeA3y6JIFOf77iPpx77PTWz_vVCjUDILsFKxb3rG-Tn--CIub/exec';
