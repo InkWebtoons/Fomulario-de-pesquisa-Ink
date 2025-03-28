@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ink WebToons - Formulário Interativo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="images/artist-placeholder.jpg" type="image/svg+xml">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <!-- Logo e título -->
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <img src="images/artist-placeholder.jpg" alt="Ink WebToons Logo" class="logo">
+                </div>
+                <h1>Ink WebToons</h1>
+                <p class="tagline">Formulário Interativo</p>
+            </div>
+            
+            <!-- Página inicial (Escolha de perfil) -->
+            <div id="landing-page" class="landing-page">
+                <h2>Você é um Artista Digital ou Geek?</h2>
+                <p class="subtitle">Escolha uma opção abaixo. Se você é ambos, volte ao início após concluir um dos questionários!</p>
+                
+                <div class="profile-selection">
+                    <div class="profile-option">
+                        <div class="profile-image">
+                            <img src="images/artista.png" alt="Artista Digital" class="profile-img">
+                        </div>
+                        <h3>Artista Digital</h3>
+                    </div>
+                    
+                    <div class="profile-option">
+                        <div class="profile-image">
+                            <img src="images/geek.png" alt="Geek" class="profile-img">
+                        </div>
+                        <h3>Geek</h3>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-type">Quem você é?</label>
+                    <select id="profile-type" name="profile-type" required>
+                        <option value="" disabled selected>Selecione uma opção</option>
+                        <option value="artist">Artista Digital</option>
+                        <option value="geek">Geek</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button type="button" class="btn next-btn" id="start-survey">Continuar</button>
+                </div>
+            </div>
+            
+            <!-- Barra de progresso (inicialmente oculta) -->
+            <div class="progress-container" id="progress-container" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
+                    <div class="step active">1</div>
+                    <div class="step">2</div>
+                    <div class="step">3</div>
+                    <div class="step">4</div>
+                    <div class="step">5</div>
+                    <div class="step">6</div>
+                </div>
+                <div class="step-text">Passo <span id="current-step">1</span> de 6</div>
+            </div>
+            
+            <!-- Formulário para Artista Digital -->
+            <form id="artist-survey-form" style="display: none;">
+                <!-- Passo 1: Sobre Você (Artista) -->
+                <div class="form-step active" id="artist-step-1">
+                    <h2>Sobre Você</h2>
+                    <div class="form-group">
+                        <label for="name">Qual é o seu nome? <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                        <div class="error-message" id="name-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="artist-age">Qual é a sua faixa etária? <span class="required">*</span></label>
+                        <select id="artist-age" name="artist-age" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Menos de 18">Menos de 18</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45+">45+</option>
+                        </select>
+                        <div class="error-message" id="artist-age-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-gender">Qual é o seu gênero? <span class="required">*</span></label>
+                        <select id="artist-gender" name="artist-gender" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Não-binário">Não-binário</option>
+                            <option value="Prefiro não informar">Prefiro não informar</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <input type="text" id="artist-gender-other" name="artist-gender-other" class="other-input" placeholder="Especifique" style="display: none;">
+                        <div class="error-message" id="artist-gender-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-area">Qual é a sua principal área de atuação? <span class="required">*</span></label>
+                        <select id="artist-area" name="artist-area" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Quadrinhos">Quadrinhos</option>
+                            <option value="Escrita">Escrita</option>
+                            <option value="Ilustração para produtos">Ilustração para produtos</option>
+                            <option value="Outro">Outra</option>
+                        </select>
+                        <input type="text" id="artist-area-other" name="artist-area-other" class="other-input" placeholder="Especifique" style="display: none;">
+                        <div class="error-message" id="artist-area-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-to-landing">Voltar</button>
+                        <button type="button" class="btn next-btn" id="artist-next-1">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 2: Experiência Atual (Artista) -->
+                <div class="form-step" id="artist-step-2">
+                    <h2>Experiência Atual</h2>
+                    
+                    <div class="form-group">
+                        <label for="artist-time">Quanto tempo você dedica à criação de arte por semana? <span class="required">*</span></label>
+                        <select id="artist-time" name="artist-time" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Menos de 5h">Menos de 5h</option>
+                            <option value="5-15h">5-15h</option>
+                            <option value="15-30h">15-30h</option>
+                            <option value="30h+">30h+</option>
+                        </select>
+                        <div class="error-message" id="artist-time-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-publish">Você já publica ou vende sua arte em plataformas digitais? <span class="required">*</span></label>
+                        <select id="artist-publish" name="artist-publish" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="artist-publish-text" name="artist-publish-text" class="other-input" placeholder="Quais plataformas?" style="display: none;">
+                        <div class="error-message" id="artist-publish-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-2">Voltar</button>
+                        <button type="button" class="btn next-btn" id="artist-next-2">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 3: Interesse nas Funcionalidades (Artista) -->
+                <div class="form-step" id="artist-step-3">
+                    <h2>Interesse nas Funcionalidades</h2>
+                    
+                    <div class="form-group">
+                        <label for="artist-webtoon-interest">Qual seu interesse em publicar webtoons ou web novels? <span class="required">*</span></label>
+                        <select id="artist-webtoon-interest" name="artist-webtoon-interest" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Nada interessado">Nada interessado</option>
+                            <option value="Pouco">Pouco</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Interessado">Interessado</option>
+                            <option value="Muito">Muito</option>
+                        </select>
+                        <div class="error-message" id="artist-webtoon-interest-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-marketplace">Você usaria um marketplace para vender produtos com sua arte? <span class="required">*</span></label>
+                        <select id="artist-marketplace" name="artist-marketplace" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                            <option value="Talvez">Talvez</option>
+                        </select>
+                        <input type="text" id="artist-marketplace-text" name="artist-marketplace-text" class="other-input" placeholder="Por quê?" style="display: none;">
+                        <div class="error-message" id="artist-marketplace-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-nft">O que acha de oferecer commissions via NFT? <span class="required">*</span></label>
+                        <select id="artist-nft" name="artist-nft" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Muito interessante">Muito interessante</option>
+                            <option value="Interessante mas preciso entender">Interessante mas preciso entender</option>
+                            <option value="Não me interessa">Não me interessa</option>
+                        </select>
+                        <input type="text" id="artist-nft-text" name="artist-nft-text" class="other-input" placeholder="Por quê?" style="display: none;">
+                        <div class="error-message" id="artist-nft-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ai-assistant">Usaria uma IA assistente? <span class="required">*</span></label>
+                        <select id="ai-assistant" name="ai-assistant" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                            <option value="Talvez">Talvez</option>
+                        </select>
+                        <div class="error-message" id="ai-assistant-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-3">Voltar</button>
+                        <button type="button" class="btn next-btn" id="artist-next-3">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 4: Suporte e Colaboração (Artista) -->
+                <div class="form-step" id="artist-step-4">
+                    <h2>Suporte e Colaboração</h2>
+                    
+                    <div class="form-group">
+                        <label for="artist-support">Quão importante é um programa de apoio? <span class="required">*</span></label>
+                        <select id="artist-support" name="artist-support" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Nada importante">Nada importante</option>
+                            <option value="Pouco">Pouco</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Importante">Importante</option>
+                            <option value="Muito">Muito</option>
+                        </select>
+                        <div class="error-message" id="artist-support-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-collab">Você gostaria de colaborar com outros artistas? <span class="required">*</span></label>
+                        <select id="artist-collab" name="artist-collab" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                            <option value="Depende">Depende</option>
+                        </select>
+                        <input type="text" id="artist-collab-text" name="artist-collab-text" class="other-input" placeholder="De quê?" style="display: none;">
+                        <div class="error-message" id="artist-collab-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-agency">Um serviço de agenciamento com curadoria seria útil? <span class="required">*</span></label>
+                        <select id="artist-agency" name="artist-agency" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Nada útil">Nada útil</option>
+                            <option value="Pouco">Pouco</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Útil">Útil</option>
+                            <option value="Muito">Muito</option>
+                        </select>
+                        <div class="error-message" id="artist-agency-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-4">Voltar</button>
+                        <button type="button" class="btn next-btn" id="artist-next-4">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 5: Monetização e Desafios (Artista) -->
+                <div class="form-step" id="artist-step-5">
+                    <h2>Monetização e Desafios</h2>
+                    
+                    <div class="form-group">
+                        <label for="artist-subscription">Você pagaria por uma assinatura para ferramentas premium? <span class="required">*</span></label>
+                        <select id="artist-subscription" name="artist-subscription" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="artist-subscription-text" name="artist-subscription-text" class="other-input" placeholder="Qual valor estaria disposto a pagar?" style="display: none;">
+                        <div class="error-message" id="artist-subscription-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Quais são seus maiores desafios para viver de arte? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="artist-challenge-visibility" name="artist-challenges" value="Falta de visibilidade">
+                                <label for="artist-challenge-visibility">Falta de visibilidade</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="artist-challenge-monetize" name="artist-challenges" value="Dificuldade em monetizar">
+                                <label for="artist-challenge-monetize">Dificuldade em monetizar</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="artist-challenge-competition" name="artist-challenges" value="Concorrência alta">
+                                <label for="artist-challenge-competition">Concorrência alta</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="artist-challenge-tools" name="artist-challenges" value="Falta de ferramentas">
+                                <label for="artist-challenge-tools">Falta de ferramentas</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="artist-challenge-other" name="artist-challenges" value="Outros">
+                                <label for="artist-challenge-other">Outros</label>
+                                <input type="text" id="artist-challenge-other-text" name="artist-challenge-other-text" class="other-input" placeholder="Especifique">
+                            </div>
+                        </div>
+                        <div class="error-message" id="artist-challenges-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-5">Voltar</button>
+                        <button type="button" class="btn next-btn" id="artist-next-5">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 6: Feedback Final (Artista) -->
+                <div class="form-step" id="artist-step-6">
+                    <h2>Feedback Final</h2>
+                    
+                    <div class="form-group">
+                        <label for="artist-features">Que funcionalidades ou recursos você gostaria de ver? <span class="required">*</span></label>
+                        <textarea id="artist-features" name="artist-features" rows="4" required></textarea>
+                        <div class="error-message" id="artist-features-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="artist-comments">Algum comentário adicional?</label>
+                        <textarea id="artist-comments" name="artist-comments" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="artist-back-6">Voltar</button>
+                        <button type="button" class="btn submit-btn" id="artist-submit">Concluir</button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Formulário para Geek -->
+            <form id="geek-survey-form" style="display: none;">
+                <!-- Passo 1: Sobre Você (Geek) -->
+                <div class="form-step active" id="geek-step-1">
+                    <h2>Sobre Você</h2>
+                  <div class="form-group">
+                        <label for="name">Qual é o seu nome? <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required>
+                     <div class="error-message" id="name-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="geek-age">Qual é a sua faixa etária? <span class="required">*</span></label>
+                        <select id="geek-age" name="geek-age" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Menos de 18">Menos de 18</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45+">45+</option>
+                        </select>
+                        <div class="error-message" id="geek-age-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-gender">Qual é o seu gênero? <span class="required">*</span></label>
+                        <select id="geek-gender" name="geek-gender" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Não-binário">Não-binário</option>
+                            <option value="Prefiro não informar">Prefiro não informar</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                        <input type="text" id="geek-gender-other" name="geek-gender-other" class="other-input" placeholder="Especifique" style="display: none;">
+                        <div class="error-message" id="geek-gender-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Qual é o seu interesse principal? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-interest-webtoons" name="geek-interests" value="Ler webtoons">
+                                <label for="geek-interest-webtoons">Ler webtoons</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-interest-novels" name="geek-interests" value="Ler web novels">
+                                <label for="geek-interest-novels">Ler web novels</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-interest-products" name="geek-interests" value="Comprar produtos personalizados">
+                                <label for="geek-interest-products">Comprar produtos personalizados</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-interest-other" name="geek-interests" value="Outros">
+                                <label for="geek-interest-other">Outros</label>
+                                <input type="text" id="geek-interest-other-text" name="geek-interest-other-text" class="other-input" placeholder="Especifique">
+                            </div>
+                        </div>
+                        <div class="error-message" id="geek-interests-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-to-landing">Voltar</button>
+                        <button type="button" class="btn next-btn" id="geek-next-1">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 2: Experiência Atual (Geek) -->
+                <div class="form-step" id="geek-step-2">
+                    <h2>Experiência Atual</h2>
+                    
+                    <div class="form-group">
+                        <label for="geek-time">Quantas horas por semana você dedica a conteúdo geek? <span class="required">*</span></label>
+                        <select id="geek-time" name="geek-time" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Menos de 5h">Menos de 5h</option>
+                            <option value="5-15h">5-15h</option>
+                            <option value="15-30h">15-30h</option>
+                            <option value="30h+">30h+</option>
+                        </select>
+                        <div class="error-message" id="geek-time-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-platforms">Você usa plataformas de webtoons ou web novels? <span class="required">*</span></label>
+                        <select id="geek-platforms" name="geek-platforms" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="geek-platforms-text" name="geek-platforms-text" class="other-input" placeholder="Quais plataformas?" style="display: none;">
+                        <div class="error-message" id="geek-platforms-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-2">Voltar</button>
+                        <button type="button" class="btn next-btn" id="geek-next-2">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 3: Interesse nas Funcionalidades (Geek) -->
+                <div class="form-step" id="geek-step-3">
+                    <h2>Interesse nas Funcionalidades</h2>
+                    
+                    <div class="form-group">
+                        <label for="geek-platform-interest">Quão interessado você está em uma plataforma com webtoons e web novels? <span class="required">*</span></label>
+                        <select id="geek-platform-interest" name="geek-platform-interest" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Nada interessado">Nada interessado</option>
+                            <option value="Pouco">Pouco</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Interessado">Interessado</option>
+                            <option value="Muito">Muito</option>
+                        </select>
+                        <div class="error-message" id="geek-platform-interest-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-products">Você compraria produtos personalizados de webtoons ou novels? <span class="required">*</span></label>
+                        <select id="geek-products" name="geek-products" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                            <option value="Talvez">Talvez</option>
+                        </select>
+                        <input type="text" id="geek-products-text" name="geek-products-text" class="other-input" placeholder="Por quê?" style="display: none;">
+                        <div class="error-message" id="geek-products-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-nft">O que acha de commissions via NFT? <span class="required">*</span></label>
+                        <select id="geek-nft" name="geek-nft" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Muito interessante">Muito interessante</option>
+                            <option value="Interessante mas preciso entender">Interessante mas preciso entender</option>
+                            <option value="Não me interessa">Não me interessa</option>
+                        </select>
+                        <input type="text" id="geek-nft-text" name="geek-nft-text" class="other-input" placeholder="Por quê?" style="display: none;">
+                        <div class="error-message" id="geek-nft-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-3">Voltar</button>
+                        <button type="button" class="btn next-btn" id="geek-next-3">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 4: Consumo e Interação (Geek) -->
+                <div class="form-step" id="geek-step-4">
+                    <h2>Consumo e Interação</h2>
+                    
+                    <div class="form-group">
+                        <label for="geek-subscription">Você pagaria uma assinatura por conteúdo premium? <span class="required">*</span></label>
+                        <select id="geek-subscription" name="geek-subscription" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="geek-subscription-text" name="geek-subscription-text" class="other-input" placeholder="Qual valor estaria disposto a pagar?" style="display: none;">
+                        <div class="error-message" id="geek-subscription-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-interaction">Quão importante é interagir com artistas? <span class="required">*</span></label>
+                        <select id="geek-interaction" name="geek-interaction" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Nada importante">Nada importante</option>
+                            <option value="Pouco">Pouco</option>
+                            <option value="Neutro">Neutro</option>
+                            <option value="Importante">Importante</option>
+                            <option value="Muito">Muito</option>
+                        </select>
+                        <div class="error-message" id="geek-interaction-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-4">Voltar</button>
+                        <button type="button" class="btn next-btn" id="geek-next-4">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 5: Preferências (Geek) -->
+                <div class="form-step" id="geek-step-5">
+                    <h2>Preferências</h2>
+                    
+                    <div class="form-group">
+                        <label>O que você mais gosta em plataformas de webtoons ou web novels? <span class="required">*</span></label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-like-variety" name="geek-likes" value="Variedade">
+                                <label for="geek-like-variety">Variedade</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-like-ease" name="geek-likes" value="Facilidade">
+                                <label for="geek-like-ease">Facilidade</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-like-quality" name="geek-likes" value="Qualidade">
+                                <label for="geek-like-quality">Qualidade</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-like-price" name="geek-likes" value="Preço acessível">
+                                <label for="geek-like-price">Preço acessível</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="geek-like-other" name="geek-likes" value="Outros">
+                                <label for="geek-like-other">Outros</label>
+                                <input type="text" id="geek-like-other-text" name="geek-like-other-text" class="other-input" placeholder="Especifique">
+                            </div>
+                        </div>
+                        <div class="error-message" id="geek-likes-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-merchandise">Você já comprou merchandise de histórias ou artistas favoritos? <span class="required">*</span></label>
+                        <select id="geek-merchandise" name="geek-merchandise" required>
+                            <option value="" disabled selected>Selecione</option>
+                            <option value="Sim">Sim</option>
+                            <option value="Não">Não</option>
+                        </select>
+                        <input type="text" id="geek-merchandise-text" name="geek-merchandise-text" class="other-input" placeholder="Quais produtos?" style="display: none;">
+                        <div class="error-message" id="geek-merchandise-error"></div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-5">Voltar</button>
+                        <button type="button" class="btn next-btn" id="geek-next-5">Próximo</button>
+                    </div>
+                </div>
+                
+                <!-- Passo 6: Feedback Final (Geek) -->
+                <div class="form-step" id="geek-step-6">
+                    <h2>Feedback Final</h2>
+                    
+                    <div class="form-group">
+                        <label for="geek-content">Que tipo de conteúdo ou produtos você gostaria de ver? <span class="required">*</span></label>
+                        <textarea id="geek-content" name="geek-content" rows="4" required></textarea>
+                        <div class="error-message" id="geek-content-error"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="geek-comments">Algum comentário ou sugestão?</label>
+                        <textarea id="geek-comments" name="geek-comments" rows="4"></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn back-btn" id="geek-back-6">Voltar</button>
+                        <button type="button" class="btn submit-btn" id="geek-submit">Concluir</button>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Mensagens de sucesso -->
+            <div class="success-message" id="artist-success-message" style="display: none;">
+                <div class="logo-circle success-logo">
+                    <img src="images/catdance.gif" alt="Ink WebToons Logo" class="logo">
+                </div>
+                <h2>Obrigado, Artista!</h2>
+                <p>Suas respostas foram enviadas com sucesso.</p>
+                <p class="ink-message">Se você também é Geek, clique em 'Voltar ao Início' para responder o outro questionário.</p>
+                <div class="button-group">
+                    <button type="button" class="btn next-btn" id="artist-back-to-start">Voltar ao Início</button>
+                </div>
+            </div>
+            
+            <div class="success-message" id="geek-success-message" style="display: none;">
+                <div class="logo-circle success-logo">
+                    <img src="images/catdance.gif" alt="Ink WebToons Logo" class="logo">
+                </div>
+                <h2>Valeu, Geek!</h2>
+                <p>Suas respostas foram enviadas com sucesso.</p>
+                <p class="ink-message">Se você também é Artista Digital, clique em 'Voltar ao Início' para responder o outro questionário.</p>
+                <div class="button-group">
+                    <button type="button" class="btn next-btn" id="geek-back-to-start">Voltar ao Início</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
