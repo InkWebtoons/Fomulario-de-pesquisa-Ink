@@ -58,7 +58,7 @@ Versão 1.0.0
 
 ## ✒️ Autores
 
-* **Seu Nome** - *Trabalho Inicial* - [InkWebtoons](https://github.com/seu-usuario)
+* **Ink Webtoons** - *Trabalho Inicial* - [InkWebtoons](https://github.com/seu-usuario)
 
 ## 📄 Licença
 
