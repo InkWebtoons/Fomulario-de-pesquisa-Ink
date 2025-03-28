@@ -412,7 +412,7 @@ testSubmission(FORM_TYPES.GEEK);
 // Exemplo de como enviar dados do frontend
 async function submitForm(formData) {
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbwAa15D7NcrURNWCtwAd33GkJICA79ldRpf44iKIcHsFVdgUpC7N1nJ7M2oxFiCoyVI/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxrPbwYQJPsfMUE6uNUeA3y6JIFOf77iPpx77PTWz_vVCjUDILsFKxb3rG-Tn--CIub/exec', {
       method: 'POST',
       body: JSON.stringify({
         formType: 'Artista Digital', // ou 'Geek'
