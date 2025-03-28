@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.formType = formType === 'artist' ? 'Artista Digital' : 'Geek';
             
             // URL do seu Google Apps Script (substitua pela sua URL)
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwAa15D7NcrURNWCtwAd33GkJICA79ldRpf44iKIcHsFVdgUpC7N1nJ7M2oxFiCoyVI/exec';
+            const scriptURL = '19i966_OqmrXjoWBVWNdAkJquAzTQa7qn9U_xCJ__pUSKxONePT8vXSdd';
             
             const response = await fetch(scriptURL, {
                 method: 'POST',
