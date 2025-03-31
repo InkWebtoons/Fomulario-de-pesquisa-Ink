@@ -2,8 +2,18 @@
 
 function doPost(e) {
   try {
+    // Verifica se e e e.postData existem
+    if (!e || !e.postData || !e.postData.contents) {
+      throw new Error('Dados inválidos recebidos');
+    }
+
     // Parse the JSON data received from the form
     const data = JSON.parse(e.postData.contents);
+    
+    // Verifica se os dados necessários existem
+    if (!data || !data.formType) {
+      throw new Error('Dados do formulário incompletos');
+    }
     
     // Access the active spreadsheet
     const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -14,6 +24,8 @@ function doPost(e) {
       sheet = ss.getSheets()[0]; // Primeira aba para Artistas
     } else if (data.formType === 'Geek') {
       sheet = ss.getSheets()[1]; // Segunda aba para Geeks
+    } else {
+      throw new Error('Tipo de formulário inválido');
     }
     
     // Se for a primeira submissão, cria os cabeçalhos apropriados
@@ -89,25 +101,25 @@ function doPost(e) {
     let formattedData;
     if (data.formType === 'Artista Digital') {
       formattedData = [
-        data.name,
-        data['artist-age'],
-        data['artist-gender'],
-        data['artist-area'],
+        data.name || 'N/A',
+        data['artist-age'] || 'N/A',
+        data['artist-gender'] || 'N/A',
+        data['artist-area'] || 'N/A',
         data['artist-area-other'] || 'N/A',
-        data['artist-time'],
-        data['artist-publish'],
+        data['artist-time'] || 'N/A',
+        data['artist-publish'] || 'N/A',
         data['artist-publish-text'] || 'N/A',
-        data['artist-webtoon-interest'],
-        data['artist-marketplace'],
+        data['artist-webtoon-interest'] || 'N/A',
+        data['artist-marketplace'] || 'N/A',
         data['artist-marketplace-text'] || 'N/A',
-        data['artist-nft'],
+        data['artist-nft'] || 'N/A',
         data['artist-nft-text'] || 'N/A',
-        data['ai-assistant'],
-        data['artist-support'],
-        data['artist-collab'],
+        data['ai-assistant'] || 'N/A',
+        data['artist-support'] || 'N/A',
+        data['artist-collab'] || 'N/A',
         data['artist-collab-text'] || 'N/A',
-        data['artist-agency'],
-        data['artist-subscription'],
+        data['artist-agency'] || 'N/A',
+        data['artist-subscription'] || 'N/A',
         data['artist-subscription-text'] || 'N/A',
         data['artist-challenge-visibility'] || 'Não',
         data['artist-challenge-monetize'] || 'Não',
@@ -115,37 +127,37 @@ function doPost(e) {
         data['artist-challenge-tools'] || 'Não',
         data['artist-challenge-other'] || 'Não',
         data['artist-challenge-other-text'] || 'N/A',
-        data['artist-features'],
+        data['artist-features'] || 'N/A',
         data['artist-comments'] || 'N/A',
         new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
       ];
     } else if (data.formType === 'Geek') {
       formattedData = [
-        data.name,
-        data['geek-age'],
-        data['geek-gender'],
-        Array.isArray(data['geek-interest-webtoons']) ? data['geek-interest-webtoons'].join(', ') : data['geek-interest-webtoons'],
+        data.name || 'N/A',
+        data['geek-age'] || 'N/A',
+        data['geek-gender'] || 'N/A',
+        Array.isArray(data['geek-interest-webtoons']) ? data['geek-interest-webtoons'].join(', ') : (data['geek-interest-webtoons'] || 'N/A'),
         data['geek-interest-other-text'] || 'N/A',
-        data['geek-time'],
-        data['geek-platforms'],
+        data['geek-time'] || 'N/A',
+        data['geek-platforms'] || 'N/A',
         data['geek-platforms-text'] || 'N/A',
-        data['geek-platform-interest'],
-        data['geek-products'],
+        data['geek-platform-interest'] || 'N/A',
+        data['geek-products'] || 'N/A',
         data['geek-products-text'] || 'N/A',
-        data['geek-nft'],
+        data['geek-nft'] || 'N/A',
         data['geek-nft-text'] || 'N/A',
-        data['geek-subscription'],
+        data['geek-subscription'] || 'N/A',
         data['geek-subscription-text'] || 'N/A',
-        data['geek-interaction'],
+        data['geek-interaction'] || 'N/A',
         data['geek-like-variety'] || 'Não',
         data['geek-like-ease'] || 'Não',
         data['geek-like-quality'] || 'Não',
         data['geek-like-price'] || 'Não',
         data['geek-like-other'] || 'Não',
         data['geek-like-other-text'] || 'N/A',
-        data['geek-merchandise'],
+        data['geek-merchandise'] || 'N/A',
         data['geek-merchandise-text'] || 'N/A',
-        data['artist-features'],
+        data['artist-features'] || 'N/A',
         data['artist-comments'] || 'N/A',
         new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
       ];
@@ -155,27 +167,23 @@ function doPost(e) {
     sheet.appendRow(formattedData);
     
     // Retorna resposta de sucesso
-    const result = {
-      result: 'success',
-      message: `Formulário ${data.formType} processado com sucesso`
-    };
     return ContentService
-      .createTextOutput(JSON.stringify(result))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .createTextOutput(JSON.stringify({ 
+        result: 'success',
+        message: `Formulário ${data.formType} processado com sucesso`
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
       
   } catch (error) {
     // Log do erro e retorno da resposta de erro
     console.error('Erro ao processar submissão do formulário:', error);
-    const result = {
-      result: 'error', 
-      error: error.toString(),
-      message: 'Falha ao processar o formulário'
-    };
     return ContentService
-      .createTextOutput(JSON.stringify(result))
-      .setMimeType(ContentService.MimeType.JSON)
-      .setHeader('Access-Control-Allow-Origin', '*');
+      .createTextOutput(JSON.stringify({ 
+        result: 'error', 
+        error: error.toString(),
+        message: 'Falha ao processar o formulário'
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
 
